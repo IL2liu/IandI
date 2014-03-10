@@ -1,0 +1,617 @@
+% formatting
+\documentclass[10pt,a4paper,final]{article}
+\usepackage{amssymb,latexsym}
+\usepackage{graphicx}
+\usepackage{authblk}
+\usepackage[margin=0.75in]{geometry}
+\usepackage{parskip}
+\setlength{\parindent}{0pt}
+\usepackage{textgreek}
+\usepackage{placeins}
+\renewcommand{\thefigure}{S\arabic{figure}}
+\renewcommand{\thetable}{S\arabic{table}}
+\usepackage{multirow} 
+\usepackage{changepage}
+
+% citations
+\usepackage[url=false,
+            backref=true,
+            autocite=superscript,
+            hyperref=true,
+            style=nature,
+            sorting=none,
+            maxbibnames=99,
+            minbibnames=99,
+            doi=false,isbn=false,url=false]{biblatex}
+\addbibresource{Supplement.bib}
+\AtEveryBibitem{\clearfield{issn}}
+\AtEveryCitekey{\clearfield{issn}}
+\DefineBibliographyStrings{english}{%
+    backrefpage  = {see p.}, % for single page number
+    backrefpages = {see pp.} % for multiple page numbers
+}
+
+
+% links
+\usepackage{color}
+\usepackage[usenames,dvipsnames,svgnames,table]{xcolor}
+\usepackage[colorlinks=true,
+            citecolor=blue,
+            urlcolor=blue,
+            linkcolor=blue]{hyperref}
+
+% customized tilde
+%{\raise.17ex\hbox{$\scriptstyle\sim$}}
+
+\begin{document}
+
+% Title and authors
+\title{Supplemental figures and text}
+\author[1,*]{Kevin~M. D'Auria}
+\author[2,*]{Glynis~L. Kolling}
+\author[2]{Gina~M. Donato}
+\author[2]{Cirle~A. Warren}
+\author[2]{Mary~C. Gray}
+\author[2,$\dag$]{Erik~L. Hewlett}
+\author[1,$\dag$]{Jason~A. Papin}
+\affil[1]{Department of Biomedical Engineering} 
+\affil[2]{Division of Infectious Diseases and International Health\\
+         Department of Medicine}
+\affil[ ]{University of Virginia, Charlottesville, VA}
+\affil[*]{Equal contribution}
+\affil[$\dag$]{Corresponding authors, Equal contribution}
+\date{}
+\maketitle
+
+% Table of contents and figure list
+\hypersetup{linkcolor=black}
+\tableofcontents
+\listoffigures
+\hypersetup{linkcolor=blue}
+
+% Now the text
+\section{Introduction}
+
+This document includes all supplemental figures, descriptions of results relevant
+to these supplemental figures, and fuller explanations of
+methods which were briefly mentioned or referred to in
+the manuscript. Another supplemental document describes,
+in step-by-step fashion, how to use the computer scripts to
+reproduce all figures and tables; it also
+briefly desribes the purpose of the scripts and how to access the appropriate
+data files. All of the scripts and data, except for the microarray data, are stored 
+in a compressed folder that can be accessed at
+\url{http://bme.virginia.edu/csbl/downloads-cdiff}.
+
+\section{Dose response to TcdA cecal injection}
+
+To understand the potency of TcdA in a cecal injection system, a dose response
+experiment was performed with histopathology as the measured outcome.
+Five histopathology parameters were scored from zero to three, for a total possible score
+between zero and fifteen (Methods). Excluding the largest dose (40 \textmu{}g),
+TcdA dose was positively correlated with the parameters ``Architecture and epithelial erosions'', 
+``Congestion and luminal exudates'', and
+``Inflammation'' (Figure \ref{fig:dose}). The total histopathology score was similarly correlated.
+The 20 \textmu{}g dose led to the highest scores; the scores with
+the 40 \textmu{}g dose were similar to the scores for the 5 or 10 \textmu{}g dose.
+A slight correlation between toxin dose and the ``Edema'' and ''Mucosal thickening''
+parameters may be observed from Figure \ref{fig:dose}, yet this possible
+correlation is unclear due to Sham mice scoring similar to all other toxin doses.
+TcdA thus affects aspects of histopathology beginning at 5 \textmu{}g, the lowest
+dose tested. Maximal effects occur with 20 \textmu{}g, the dose used in all our
+other experiments.
+
+\begin{figure}[ht]
+\centering
+\includegraphics{doseresponse.pdf}
+\caption{Histopathology 6h after cecal injection with TcdA.}
+\label{fig:dose}
+\end{figure}
+
+\clearpage
+
+\section{Survival data from all cecal injection experiments}
+
+In addition to the dose response experiment, three cecal injection experiments were performed, each on
+different days (Table \ref{tab:sizes}). The ``15/16*'' in the table are the mice shown in
+Figure \ref{fig:dose}. Only four of these mice were given 20 \textmu{}g, and
+only these four are included in the ``Totals''. The one mouse that did not
+survive in the dose response experiment was given 5\textmu{}g of TcdA.
+The TECHLAB\textsuperscript{\textregistered{}} lot numbers 
+of the toxins used are given in the last two columns. Mice used for microarrays
+and all protein measurements were from experiments 1 and 2. The numbers in the tables
+below give the fraction of survivors in each sample group (\# survivors/total mice).
+
+\begin{table}[ht]
+\begin{adjustwidth}{-1cm}{}
+\begin{tabular}{ c | c c c c | c c c c | c c c | c c }
+   & \multicolumn{4}{c|}{2 hours} & \multicolumn{4}{c}{6 hours} & 
+     \multicolumn{3}{|c|}{16 hours} & TcdA & TcdB \\
+  Toxin: & A & B & A+B & Sham & A & B & A+B & Sham & A & B & Sham & Lot \# & Lot \# \\ \hline
+  Dose response & --- & --- & --- & --- & 15/16* & --- & --- & 3/3 & --- & --- & --- & 0810123 & --- \\
+  Exp. 1 & 3/3 & 5/5 & 3/3 & 3/3 & 3/3 & 3/3 & 1/3 & 3/4 & 3/3 & 2/3 & 3/3 & 0909101 & 0209165 \\
+  Exp. 2 & 3/4 & 4/4 & --- & 4/4 & 3/4 & 3/4 & --- & 3/4 & 5/5 & 4/5 & 5/5 & 0909101 & 0209165\\
+  Exp. 3 & --- & --- & --- & --- & --- & --- & --- & --- & 2/5 & 3/4 & 3/3 & 0810123 & 0209165\\ \hline
+  Totals & 6/7 & 9/9 & 3/3 & 7/7 & 10/11 & 6/7 & 1/3 & 9/11 & 10/13 & 9/12 & 11/11 &  & \\
+   & 86\% & 100\% & 100\% & 100\% & 91\% & 86\% & 33\% & 82\% & 77\% & 75\% & 100\% &  & \\
+\end{tabular}
+\caption{Cecal injection experiments }
+\label{tab:sizes}
+\end{adjustwidth}
+\end{table}
+
+Two cecal injection experiments were also performed with antibody 
+preatreatment (Figure 4 of Manuscript). The sample sizes for TcdA and Sham
+groups pretreated with isotype antibodies or anti-Cxcl1+anti-Cxcl2 (Neutr. Abs.) 
+are shown in Table \ref{tab:absizes}.
+
+\begin{table}[ht]
+\centering
+\begin{tabular}{ c | c c | c c | c c | c c | c }
+   & \multicolumn{4}{c|}{6 hours} & \multicolumn{4}{c|}{16 hours} & TcdA  \\
+   & \multicolumn{2}{c|}{Isotype} & \multicolumn{2}{c|}{Neutr. Abs.} &
+     \multicolumn{2}{c|}{Isotype} & \multicolumn{2}{c|}{Neutr. Abs.} & Lot \\
+   Toxin: & A & Sham & A & Sham & A & Sham & A & Sham & \# \\ \hline
+   Exp. 4 & 2/4 & 2/2 & 4/4 & 2/2 & 2/4 & 2/2 & 4/4 & 2/2 & 0810123 \\
+   Exp. 5 & 2/4 & 3/3 & 3/4 & 3/3 & --- & --- & --- & --- & 0810123 \\ \hline
+   Totals & 4/8 & 5/5 & 7/8 & 5/5 & 2/4 & 2/2 & 3/4 & 2/2 &  \\
+    & 50\% & 100\% & 88\% & 100\% & 50\% & 100\% & 75\% & 100\% &  \\
+\end{tabular}
+\caption{Cecal injection experiments with isotype antibody pretreatment}
+\label{tab:absizes}
+\end{table}   
+   
+\clearpage
+
+\section{Cytopathic effects on a mouse, cecal, epithelial cell line}
+
+The cytopathic effects (e.g. cell rounding) of TcdA and TcdB were confirmed using an
+immortalized, mouse, cecal epithelial cell line (Methods). These effects
+were quantified by continuously measuring the impedance across the surface
+of electrode-embedded wells (ACEA Biosciences). Similar methods and instrumentation
+have been used previously in an ultrasensitive assay to detect TcdA and TcdB. \autocite{He2009}
+Changes in impedance represent changes in
+cell adherence, morphology, and number. Our visual observations of cell rounding
+corresponded with changes in impedance. 
+
+Figure \ref{fig:cells} shows impedance before and after toxin
+addition. All readings are normalized to the impedance
+at the time the toxin was added. Gray ribbons surrounding the lines represent
+the standard deviation (n=2 per concentration, n=3 for control). If ribbons are not visible, 
+this is because the replicates are highly similar. An impedance of zero
+is the impedance of media before cells were seeded.
+
+The minimum concentration of 
+TcdA needed to alter an impedance profile (as shown in Figure \ref{fig:cells}) is
+between 10 and 100 pg/ml (in a volume of 210.5 \textmu{}l); the concentration for TcdB is 
+approximately 10 fg/ml. 
+Hence, TcdB is at least 1,000 times more potent than TcdA
+\emph{in vitro} with immortalized epithelial cells from a mouse cecum. Interestingly, our results
+clearly show that TcdA more potently induces inflammation and
+tissue damage \emph{in vivo}. 
+The initial concentration in our cecal injection experiments was 20\textmu{}g/100\textmu{}l=200\textmu{}g/ml. 
+Nevertheless, the purifications of TcdA and TcdB used
+in this study affect mouse cells rapidly (e.g. $<$10min for TcdB at 100 ng/ml, Figure \ref{fig:cells}) at concentrations comparable to and even far lower than 
+the initial concentrations in our \emph{in vivo} experiments.
+
+\begin{figure}[ht]
+\centering
+\includegraphics{cytopathiceffects.pdf}
+\caption{Cytopathic effects of TcdA and TcdB on a mouse epithelial cell line.}
+\label{fig:cells}
+\end{figure}
+
+\clearpage
+
+\section{Altered blood cell distributions after toxin injection}
+
+Complete blood counts indicated that the concentration of circulating
+blood cells was altered during intoxication (Figure \ref{fig:cbcs}). 
+Blood was drawn by cardiac puncture immediately after mice were euthanized.
+Only measurements for mice which survived to the end point are represented
+in the figure. Sufficient blood to measure complete blood counts was not 
+capable of being drawn from every mouse. The mean corpuscular volume (MCV), 
+mean corpuscular hemoglobin (MCH), MCH concentration (MCHC), red blood
+cell distribution width (RDW), and mean platelet volume (MPV) were
+similar across all three sample groups and are not shown.
+
+\begin{figure}[ht]
+\centering
+\includegraphics{cbcs.pdf}
+\caption{Complete blood counts in Sham, TcdA-, or TcdB-treated mice}
+\label{fig:cbcs}
+\end{figure}
+
+\section{Immunohistochemstry: immune cell infiltration}
+
+To determine if monocytes/macrophages, dendritic cells, and eosinophils
+infiltrate the epithelial layer after cecal injection of toxin, we used
+immunohistochemistry markers (Methods). Cecal tissue sections were scored 
+by analyzing each section for the number of positive cells and overall
+staining intensity.  Samples were assigned scores of + (few cells/weak staining), 
+++ (moderate staining), or +++ (increased cell/intense staining). Table \ref{tab:ihc}
+below shows the scores for Sham and TcdA-injected mice at 6 and 16 hours.
+
+\begin{table}[ht]
+\centering
+\begin{tabular}{ r c c c c }
+  Cell type: & Macrophages & Dendritic Cells & Eosinophils &  \\
+  Marker: & F4/80 & Ly75 & Congo Red & \emph{n}\\ \hline
+  Sham, 6h: & + & + & + & 4 \\
+  TcdA, 6h: & +++ & ++ & + & 8 (4 for F4/80) \\
+  Sham, 16h: & + & + & + & 4 \\
+  TcdA, 16h: & +++ & +++ & + & 7 \\
+\end{tabular}
+\caption{Infiltration of immune cells 6h and 16h after cecal injection}
+\label{tab:ihc}
+\end{table}
+
+\clearpage
+\section{Cell type proportions in epithelial-layer cell isolation}
+
+The cell type proportions within the epithelial-layer cell isolation
+were determined by flow cytometry (Figure \ref{fig:flow}). Two
+separate flow cytometry panels were used. For each sample, 50,000
+events, or particles, were captured. 
+For both panels, all particles were initially gated using pulse 
+width and forward scatter-area to select for single 
+cells, or singlets.  Events in this gate were then separated 
+by forward scatter and side scatter to identify epithelial 
+and non-epithelial fractions.  Epithelial cells were then 
+validated using cytokeratin positivity in the first panel.  
+The non-epithelial fractions from both panels were further characterized
+with CD45, a leukocyte marker. Finally, the leukocytes were further characterized
+using CD3 (a T cell marker), CD11b (a myeloid lineage marker), and 
+B220 (a primarily B cell marker). The results are discussed in the manuscript
+and shown in Figure \ref{fig:flow}.
+
+
+\begin{figure}[ht]
+  \centering
+    \includegraphics[height=6in]{flow.pdf}
+  \caption{Cell type proportions as determined by flow cytometry}
+  \label{fig:flow}
+\end{figure}
+
+\clearpage
+
+\section{Comparisons of gene and protein expression of cytokines}
+
+To test the common assumption that gene expression correlates
+with protein expression, we compared the microarray data for chemokines to the
+intracellular protein expression. After mapping
+microarray probes to the appropriate Ensembl gene IDs, we found that TcdA-induced 
+changes in gene expression correlated to changes in protein 
+expression (r=0.67, Figure \ref{fig:geneprotein}A). Our data for Ccl4 is not shown
+in Figure \ref{fig:geneprotein}A because the protein concentration measurements
+were at or below the detection limit of our assay. The Ccl4 concentration from
+three mice treated with toxin A were 0.8, 0.8, and 4.8 pg/ml; the concentrations
+from three sham mice were 0.8, 0.8, and 14.72 pg/ml. Cell 
+lysates were obtained as described in the Methods of the Manuscript.
+Cytokine levels in serum and lysates were measured by using
+MILLIPLEX\textsuperscript{\textregistered{}}
+MAP beads and the signal was measured using a Luminex 100 IS System.
+
+\begin{figure}[ht]
+\centering
+\includegraphics{cytokines.pdf}
+\caption{Cytokine gene and protein expression}
+\label{fig:geneprotein}
+\end{figure}
+
+Figure \ref{fig:geneprotein}B compares our measurements of changes in the gene expression 
+of cecal epithelial cells (Toxin A+B versus Sham at 6h; cecal injection) 
+to protein concentration changes 
+in mouse colonic tissue lysates as measured by
+Hirota \emph{et al.} (Toxin A+B versus Sham at 4h; intrarectal instillation).\autocite{Hirota2012}
+Figure \ref{fig:geneprotein}C compares cecal epithelial layer protein expression (Toxin A
+versus Sham at 6h) to the same Hirota \emph{et al.} data.
+Overall, the changes in the protein concentrations of colonic tissue were greater
+than measurements of gene or protein expression from cecal cells. 
+
+In addition to differences in the location of the intestine and 
+differences in the biological molecules being measured, the 
+Hirota \emph{et al.} samples were obtained from a different source, colonic tissue.
+The colonic tissue presumably includes proteins from
+intracellular and extracellular proteins, while many of our measurements included
+only intracellular protein or mRNA. Nevertheless, Figures \ref{fig:geneprotein}B
+and \ref{fig:geneprotein}C show correlation between the colonic tissue
+data and cecal epithelial layer gene expression (r=0.5) and protein
+expression (r=0.36). Additionally, our measurements of changes in blood serum
+cytokines after 6h of TcdA injection correlated best with the data from 
+Hirota \emph{et al.} (Figure \ref{fig:geneprotein}D).
+
+\clearpage
+
+
+
+\section{Inflammation and immune regulatory associated gene expression}
+
+Figure 3C of the manuscript shows the expression change of inflammation associated
+and immune regulatory genes. Figure \ref{fig:inflam} extends this figure to also
+show TcdB-induced and TcdA-induced expression changes on separate, side-by-side
+plots.
+
+\begin{figure}[ht]
+  \centering
+    \includegraphics[height=7.4in]{inflam.pdf}
+  \caption{Expression changes of inflammation associated
+           and immune regulatory genes}
+  \label{fig:inflam}
+\end{figure}
+
+
+
+\clearpage
+
+
+
+\section{Additional measurements after Cxcl1 \& Cxcl2 neutralization}
+
+\subsection{\emph{Cxcl1} and \emph{Cxcl2} expression}
+
+Aside from any possible feedback and regulatory mechanisms, i\@.p\@. administration of anti-Cxcl1 and
+anti-Cxcl2 were predicted to neutralize extracellular proteins and not directly affect 
+\emph{Cxcl1} and \emph{Cxcl2} expression. Using qRT-PCR to measure mRNA
+in epithelial-layer cells, we found that antibody neutralization did not block the transient
+increase in \emph{Cxcl1} and \emph{Cxcl2} expression that we previously 
+measured by microarray (Figure \ref{fig:qrtpcr}). \emph{Actb} and \emph{Hprt}
+were used as ``housekeeping'' genes.
+The quantity of each transcript was calculated as $2^{-\Delta \Delta Ct}$ where
+$\Delta \Delta Ct$ is the difference in cycle threshold between the transcript and the 
+geometric mean of the housekeeping genes).
+
+\begin{figure}[ht]
+\centering
+\includegraphics{qrtpcr.pdf}
+\caption{ \emph{Cxcl1} and \emph{Cxcl2} expression after Cxcl1 \& Cxcl2 neutralization }
+\label{fig:qrtpcr}
+\end{figure}
+
+
+\subsection{MPO positive cell infiltration}
+
+We hypothesized that neutralization of Cxcl1 and Cxcl2
+would inhibit neutrophil infiltration in the cecum. We found that 
+our neutralization did not affect the amount of infiltration after injection
+of TcdA (Figure \ref{fig:neutralization}). The high variability for these 
+limited samples, however,
+makes it difficult to claim that isotype, anti-Cxcl1, and anti-Cxcl2 antibodies
+do or do not have an effect on neutrophil infiltration 6h after cecal injection---at 
+least with the method in which we administered the antibodies.
+
+\begin{figure}[ht]
+\centering
+\includegraphics{neutralization.pdf}
+\caption{Neutrophil infiltration 6h after TcdA cecal injection}
+\label{fig:neutralization}
+\end{figure}
+
+\clearpage
+
+\section{\emph{In vivo} transcriptome response \emph{versus
+            in vitro} transcriptome and proteome responses}
+
+In previous studies with epithelial cell lines, the response 
+to TcdA and/or TcdB has been analyzed with transcriptomic and 
+proteomic techniques. In order to merge the data in this present study
+to our previous data from a human ileocecal epithelial
+cell line (HCT8 cells) treated with TcdA or TcdB, we mapped orthologous
+mouse and human genes.\autocite{DAuria2012} These genes were further mapped
+to human proteins in order to be compared to a recent proteomics study
+by Zeiser \emph{et al.} who treated Caco-2 cells with TcdA.\autocite{Zeiser2013}
+
+The fold changes of sample groups relative
+to control groups were compared using nonparametric correlation
+coefficients (Figure \ref{fig:correlations}). The values in cells of the figure
+are the correlation coefficients squared (the square of the Pearson
+correlation coefficient is the coefficient of determination, or $R^2$ value).
+The colors of the cells correspond to the correlation coefficients. Negative
+correlations are blue; positive correlations are red.
+One-to-one orthologs were used to compare the two
+transcriptional data sets (19,643 genes). The proteomics data
+set was merged separately since data is available for many fewer
+proteins than genes (4,090 gene-protein pairs).
+
+\begin{figure}[ht]
+\centering
+\includegraphics{correlations.pdf}
+\caption{Correlations between \emph{in vitro} and \emph{in vivo} responses to toxins}
+\label{fig:correlations}
+\end{figure}
+
+As seen above, there is little correlation between different studies
+and experimental systems. In Figure \ref{fig:commons}, we show
+13 of the most differentially expressed genes that were similarly 
+expressed in both our \emph{in vivo} and \emph{in vitro} data sets.
+
+\begin{figure}[ht]
+\centering
+\includegraphics{commongenes.pdf}
+\caption{Similarly expressed genes \emph{in vitro} and \emph{in vivo}}
+\label{fig:commons}
+\end{figure}
+
+\clearpage
+
+
+\section{Processing microarrays}
+
+Multiple steps are involved in processing the raw data of microarrays
+to a matrix of signal intensity values. We first 
+introduce the usual steps and then describe the methods we chose
+for each step.
+
+\subsection{Possible steps in processing microarrays}
+
+Except for probe set summarization, each one of the steps below is
+optional. The order of some steps may be alternated, though this is not
+typical. 
+
+\begin{enumerate}
+  \item \emph{Background correction}: Each array is corrected for background intensity.
+  \item \emph{Probe level normalization}: All arrays are normalized to each 
+  other based on the probe level data.
+  \item \emph{Mismatch correction}: The signal intensity of perfect-match probes 
+  is corrected based on the signal from corresponding mismatch probes.
+  \item \emph{Probe set summarization}: The probes in each probe set are 
+  summarized into one probe set signal intensity
+\end{enumerate}
+
+Each step has about four to ten different computational
+methods that can be used. Many of the methods have several optional parameters.
+Hence, the number of ways to process microarrays is vast.
+
+\subsection{Steps taken in processing microarrays}
+
+In the list below are the computatonal methods we chose for the microarray
+processing steps described in the last section. 
+Instead of presenting the lengthy comparative analysis of the many
+sequences of methods that we examined, we provide only a brief description of either 
+why a method was chosen or why others were not.
+
+\begin{enumerate}
+  \item \emph{RMA Background correction}\autocite{Irizarry2003}: 
+  gcRMA\autocite{Wu2004} was not used since it
+  has been shown to cause artificially high gene-gene correlation which
+  would affect our gene set enrichment tests.\autocite{Lim2007}
+  
+  \item \emph{Cyclic loess probe level normalization}: Cyclic loess normalization was 
+  used over quantile normalization because of quantile normalization's assumption
+  that the probes on each microarray have the exact same 
+  distribution.\autocite{Ballman2004} Invariant
+  set normalization\autocite{LiWong2001b} caused some microarrays to become outliers, which we observed
+  using principal components analysis. A second cyclic loess normalization was applied
+  at the probe set level.
+  
+  \item \emph{Perfect match probes only}: Only perfect match probes were used.
+  Although several model-based processing techniques have shown that mismatch
+  probes provide useful information, the precise way in which mismatch probes should
+  be used to correct for the signal from the corresponding perfect match 
+  probes remains unclear.\autocite{Wang2007}
+  
+  \item \emph{Median polish probe set summarization}: Median polish was 
+  used as opposed to Tukey's Bi-Weight algorithm to better account for 
+  differences in probe affinities.\autocite{Tukey1977,AffymetrixWhitePaper}
+    
+\end{enumerate}
+
+\section{Determining differentially expressed genes}\label{S:DE}
+
+As with processing raw microarray data, there are many methods and options
+for determining the significance of a probe set's change in expression between
+two sample groups. We analyzed the results from many available methods, but only
+briefly explain some of the findings that led us to the statistical test 
+which we chose. Though permutation tests such as significance analysis of
+microarrays\autocite{Tusher2001} are advantageous because they are less sensitive to outliers,
+we did not use such tests because our low sample numbers did not allow
+many permutations to be generated. We did not use simple fold change cutoffs because
+they do not account for variation among replicates. We also considered limma's 
+moderated t-statistic.\autocite{Smyth2004,Smyth2005} We found
+that many of the significant probe sets identified by limma had low intensity values but very
+small expression differences between sample groups. This was due to the near zero standard 
+errors of some probe sets which we believed to occur for mostly technical,
+not biological reasons. We therefore used cyberT\autocite{Baldi2001}, which, in practice,
+adjusts the standard deviation for a probe set depending on the signal intensity
+of that probe set.
+
+The next problem is deciding what p-value cutoff to use for determining which
+probe sets are ``significant''. To help with this, various ``p-value adjustments'' or
+``FDR corrections'' use the p-value distribution to estimate the false discovery
+rate (FDR). FDR corrections generate q values that describe the false discovery
+rate for a group of genes. For instance, if the tenth ranked gene has a q value of 0.2, then
+2 of the top ten genes should be false positives and the other 8 should be true
+positives. We chose to use the Benjamini-Hochberg p-value adjustment\autocite{Benjamini1995}
+instead of other more conservative methods such as the Bonferroni correction which
+controls the family-wise error rate. This 
+helps conceptually, yet still leaves an arbitrary choice of 
+what q-value cutoff to use. We chose a cutoff of q\textless{}0.01 for mostly the practical
+reason that the number of significant genes it led to was manageable.
+
+Of the many statistical tests that we analyzed, we found that the number of
+differentially expressed genes varied from test to test. However, for each test,
+the number of differentially expressed genes for one comaparison relative to
+another comparison was similar. For instance,
+if statistical test $A$, relative to test $B$, found double the number of differentially expressed genes
+for the TcdA versus sham comparison at 2h, then test $A$ also found about double the number of
+differentially expressed genes in all other comparisons. Also,
+the ranking of the genes was fairly consistent for different statistical tests.
+Hence, in our next analysis of gene set enrichment, we sought enrichment
+methods which use expression values or test statistics, not those that require 
+genes to be set as ``differentially expressed'' or ``not differentially expressed''.
+
+\section{Gene set enrichment}
+
+As briefly mentioned in the manuscript, gene set enrichment methods help to 
+understand the biological functions associated with changes in gene expression
+data. To define gene sets, we used gene function annotations from the Gene 
+Ontology and Reactome databases.
+
+Much of the bioinformatics literature has categorized
+different enrichment methods by the type of hypothesis tested.\autocite{Ackermann2009}
+
+\subsection{Competitive}
+
+One possible hypothesis tested in the ``competitive'' gene set enrichment method
+CAMERA, developed by Wu \emph{et al.}, is whether the mean t-statistic for the 
+genes in a gene set is significantly different than the genes not in the 
+gene set.\autocite{Wu2012} In other words, it tests whether or not the genes in a gene set are 
+more differentially expressed than the genes outside of the gene set. As 
+this type of test compares the differential expression of two competing 
+groups of genes (genes in the set versus not in the set), it has come to 
+be named a ``competitive'' test. CAMERA was written to use the moderated t-statistic 
+from limma.\autocite{Smyth2005} We wrote a modified version of CAMERA to instead use
+the cyberT t statistic\autocite{Baldi2001}, the same statistic used in our differential gene
+expression analysis.
+
+\subsection{Self-contained}
+
+Another important and common null hypothesis is that the genes in the gene set are 
+not differentially expressed at all. Since this type of test requires only data 
+from genes in the gene set, it has been coined a ``self-contained'' test. 
+Our self-contained method tests whether the avearge t-statistic for the genes 
+in a gene set is zero.
+
+To describe our self-contained test, we use the 
+notations from the CAMERA manuscript.\autocite{Wu2012} Consider a gene-wise statistic, $z_i$ for gene $i$ in
+a gene set with $m$ genes. In our self-contained test, this statistic is the 
+standard normal deviate which has the
+same quantile as the cyberT t-statistic; a similar transformation is also 
+performed with CAMERA. Under the null hypothesis that
+the average of the gene expression differences between the two sample groups is zero, 
+the gene set's mean test statistic, $\bar{z}$, is normally distributed with
+$\mu{}=0$ and
+
+\begin{equation}
+Var( \bar{z} ) = \frac{1}{m^2} 
+                 \left(   
+                   \sum\limits_{i=1}^m \sigma{}_i^2 + 
+                   \sum\limits_{i<j} \sigma{}_i \sigma{}_j \rho_{ij}
+                 \right).
+\end{equation}
+
+Since $z_i \sim \mathcal{N}(0,1)$ for all $i$,
+
+\begin{equation}
+Var( \bar{z} ) = \frac{1}{m}  + \frac{m-1}{m}\bar{\rho}
+\end{equation}
+
+where $\bar{\rho}$ is the average correlation between genes in the gene set. Note for
+large $m$, $Var(z) \approx \bar{\rho}$. If $\bar{z_k}$ is the 
+mean test statistic for gene set $k$ calculated from the data, then a p-value
+is calculated using location of $\bar{z_k}$ in the cumulative distribution 
+function of $\bar{z}$. This novel method improves upon another published, parametric gene
+set enrichment method, namely PAGE.\autocite{Kim2005}
+
+
+\clearpage
+\printbibliography
+
+\end{document}
+
+
+
+
+
+
+

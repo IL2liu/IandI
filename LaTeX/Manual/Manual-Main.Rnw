@@ -1,0 +1,598 @@
+% formatting
+\documentclass[10pt,a4paper,final]{article}
+\usepackage{amssymb,latexsym}
+\usepackage{graphicx}
+\usepackage{authblk}
+\usepackage[margin=0.75in]{geometry}
+\usepackage{parskip}
+\setlength{\parindent}{0pt}
+\usepackage{textgreek}
+\usepackage{pbox}
+\renewcommand{\thefigure}{M\arabic{figure}}
+
+% citations
+\usepackage[url=false,
+            backref=true,
+            autocite=superscript,
+            hyperref=true,
+            style=nature,
+            sorting=none,
+            maxbibnames=99,
+            minbibnames=99,
+            doi=false,url=false,isbn=false]{biblatex}
+\addbibresource{Manual.bib}
+\AtEveryBibitem{\clearfield{issn}}
+\AtEveryCitekey{\clearfield{issn}}
+\DefineBibliographyStrings{english}{%
+    backrefpage  = {see p.}, % for single page number
+    backrefpages = {see pp.} % for multiple page numbers
+}
+
+
+% links
+\usepackage{color}
+\usepackage[usenames,dvipsnames,svgnames,table]{xcolor}
+\usepackage[colorlinks=true,
+            citecolor=blue,
+            urlcolor=blue,
+            linkcolor=blue]{hyperref}
+            
+
+\begin{document}
+
+<<set-options, include=FALSE, cache=FALSE>>=
+opts_knit$set(root.dir="../../")
+opts_chunk$set(eval=TRUE)
+@
+
+\title{Supplement for reproducing all data analyses}
+\author[1,*]{Kevin~M. D'Auria}
+\author[2,*]{Glynis~L. Kolling}
+\author[2]{Gina~M. Donato}
+\author[2]{Cirle~A. Warren}
+\author[2]{Mary~C. Gray}
+\author[2,$\dag$]{Erik~L. Hewlett}
+\author[1,$\dag$]{Jason~A. Papin}
+\affil[1]{Department of Biomedical Engineering} 
+\affil[2]{Division of Infectious Diseases and International Health\\
+         Department of Medicine}
+\affil[ ]{University of Virginia, Charlottesville, VA}
+\affil[*]{Equal contribution}
+\affil[$\dag$]{Corresponding authors, Equal contribution}
+\date{}
+\maketitle
+
+\hypersetup{linkcolor=black}
+\tableofcontents
+\hypersetup{linkcolor=blue}
+
+\section{Introduction}\label{S:Intro}
+To ensure that all computational analyses, tables, and figures
+presented are reproducible, we have provided the necessary data
+files, scripts, and accompanying explanations. All analyses 
+were performed with the free, open source R programming language
+and R software packages within the Bioconductor project.\autocite{Gentleman2004} 
+In addition
+to the instructions included in this document, every script file
+is well commented, providing further details. The supplemental figures
+and associated text are in a separate document. 
+
+\section{Preparing software, files, and folders}\label{S:Files} 
+
+\subsection{Directory structure}
+All of the scripts and data, except for the microarray data, are stored 
+in a compressed folder that can be accessed at
+\url{http://bme.virginia.edu/csbl/downloads-cdiff}. The scripts,
+without the large annotation and data files in the \texttt{./data} folder, 
+are also accessible from an online version control system at 
+\href{https://bitbucket.org/kdauria/cdiff}{bitbucket.org}.
+
+Once extracted, this root folder serves as the working 
+directory for all scripts. The folder is heretofore
+referred to with the path \texttt{./}~. Note that for path
+names on Windows operating systems, backslashes are used instead of
+forward slashes. Several physiological measurements are
+included in the tab delimited text file
+\texttt{./PhysiologyMeasurements.csv}. Files associated with 
+different steps of the analysis are included
+in subfolders corresponding to subsequent sections of this document.
+
+\subsection{R and R packages}
+Version 2.15.2 of R was run on a \texttt{x86\_{}64-pc-linux-gnu} platform. 
+The following R packages were 
+used:\autocite{Gautier2004,Bolstad2004,Durinck2009,Wickham2009,Smyth2005,Wickham2007}
+
+\begin{table}[h]
+  \begin{center}
+    \begin{tabular}{ l l l l  }
+\texttt{affy\_{}1.36.1} & \texttt{digest\_{}0.6.2} & 
+\texttt{MASS\_{}7.3-23} & \texttt{reshape\_{}0.8.4}\\
+\texttt{affyio\_{}1.26.0} & \texttt{gcrma\_{}2.30.0} & 
+\texttt{Matrix\_{}1.0-11} & \texttt{reshape2\_{}1.2.2}\\
+\texttt{affyPLM\_{}1.34.0} & \texttt{gdata\_{}2.12.0} & 
+\texttt{mouse4302cdf\_{}2.11.0} & \texttt{RSQLite\_{}0.11.2}\\
+\texttt{AnnotationDbi\_{}1.20.3} & \texttt{ggplot2\_{}0.9.3}
+& \texttt{mouse4302.db\_{}2.8.1} & \texttt{scales\_{}0.2.3}\\
+\texttt{Biobase\_{}2.18.0} & \texttt{GO.db} & 
+\texttt{mouse4302probe\_{}2.11.0} & \texttt{splines\_{}2.15.2}\\
+\texttt{BiocGenerics\_{}0.4.0} & \texttt{gplots\_{}2.11.0} & 
+\texttt{munsell\_{}0.4} & \texttt{stats4\_{}2.15.2}\\
+\texttt{BiocInstaller\_{}1.8.3} & \texttt{grid\_{}2.15.2} & 
+\texttt{org.Mm.eg.db\_{}2.8.0} & \texttt{stringr\_{}0.6.2}\\
+\texttt{biomaRt\_{}2.14.0} & \texttt{gtable\_{}0.1.2} & 
+\texttt{parallel\_{}2.15.2} & \texttt{tcltk\_{}2.15.2}\\
+\texttt{Biostrings\_{}2.26.3} & \texttt{gtools\_{}2.7.0} & 
+\texttt{plyr\_{}1.8} & \texttt{tools\_{}2.15.2}\\
+\texttt{bitops\_{}1.0-5} & \texttt{IRanges\_{}1.16.4} & 
+\texttt{preprocessCore\_{}1.20.0} & \texttt{XML\_{}3.95-0.1}\\
+\texttt{caTools\_{}1.14} & \texttt{KernSmooth\_{}2.23-8} & 
+\texttt{proto\_{}0.3-10} & \texttt{zlibbioc\_{}1.4.0}\\
+\texttt{colorspace\_{}1.2-1} & \texttt{labeling\_{}0.1} & 
+\texttt{qvalue\_{}1.32.0} & \\
+\texttt{DBI\_{}0.2-5} & \texttt{lattice\_{}0.20-13} & 
+\texttt{RColorBrewer\_{}1.0-5} & \\
+\texttt{dichromat\_{}2.0-0} & \texttt{limma\_{}3.14.4} & 
+\texttt{RCurl\_{}1.95-3} & 
+
+    \end{tabular}
+  \end{center}
+\end{table}
+
+\subsection{Downloading the microarray data}
+The microarray data files are deposited in the NCBI GEO database 
+as a data series with the accession number \texttt{GSE44091}. The 
+matrix of preprocessed data is also uploaded to GEO. However,
+for the purposes of this analysis, the compressed folder of 
+\texttt{.CEL} files must be downloaded. On the 
+GEO web page for \texttt{GSE44091}, there should be a link
+to download the compressed folder which is probably in
+a \texttt{tar} format (i\@.e\@.~with a \texttt{tar}
+file extension). Once extracted, all of the \texttt{.CEL}
+files should be placed in the \texttt{./data/CEL.files/}
+folder. Each of the 32 files is approximately ten megabytes.
+
+\section{Loading and organizing microarray data}\label{S:Loading} 
+The script \texttt{./A-LoadingData/loadData.R} parses the
+\texttt{.CEL} files into \texttt{AffyBatch} objects and
+and saves them in the \texttt{./data/RData/abatches.RData} file.
+There are four \texttt{AffyBatch} objects for four groupings
+of the microarrays: 2hr, 6hr, 16hr, and all arrays.
+The endpoint and toxin injection associated with each
+array are also labeled and can be accessed using the
+\texttt{pData} function on each \texttt{AffyBatch}.
+
+\section{Preprocessing microarray data}\label{S:Preprocessing} 
+\texttt{./B-Preprocessing/preprocessData.R} preprocesses
+the \texttt{AffyBatch} objects. Once preprocessed, each
+\texttt{AffyBatch} object leads to an \texttt{ExpressionSet}
+object which contains the signal intensities
+for every probe set on each microarray. 
+The \texttt{ExpressionSet} objects are stored in
+\texttt{./data/RData/esets.RData}.
+
+\section{Microarray and gene annotation}\label{S:Annotations} 
+
+\subsection{Background}
+
+On the Mouse 430 2.0 Affymetrix array used here, there are 
+approximately $1002 \times 1002=1$,$004$,$004$ 
+probes, each of which has a different 25 base pair oligomer. Affymetrix
+used the GenBank and Unigene databases to choose the 
+probe sequences that align with all the genes in the 
+mouse genome. Approximately half of the probes are ``mismatch'' probes, probes for
+which the sequence differs by one nucleotide from the corresponding ``perfect-match'' probe. 
+These mismatch probes are intended to measure nonspecific binding. However,
+how to best use the readings from mismatch probes is 
+still unclear. \autocite{Wang2007}
+Several processing techniques successfully use only the ``perfect match''
+probes; we do the same here.
+
+Affymetrix arranged probes into probe sets. Each probe set includes
+approximately 10-20 probes and is intended to represent the sequence
+of a specific gene or transcript. The Affymetrix probe set
+IDs can in turn be linked to databases of other identifiers
+(e\@.g\@. Entrez gene, Ensembl, MGI, etc\@.). In order to 
+understand and interpret the signal intensities of the probes
+in reference to commonly used gene names (e\@.g\@. Jun, Rhob, 
+etc\@.), the annotations from probe to probe set to gene name
+are exceedingly important. Multiple databases, which we employ here,
+have arisen to address this need.
+
+\subsection{Annotation sources}
+Sequence annotations are constantly updated as new experimental
+findings come to light. To ensure our annotations and subsequent
+analyses using these annotations are repeatable, 
+we have either provided the
+version number of annotation packages used or downloaded annotation files
+from public databases. All downloaded annotation files are in the
+\texttt{./data/RData/annotation.files} folder;
+the file names are made to be self explanatory. The
+parsed annotations files resulted in R variables used in all further analyses. These
+variables are stored in the \texttt{./data/RData/annotation.RData} folder.
+One could therefore skip this section of the ths document and simply load
+these variables into the R workspace.
+
+\subsubsection{Affymetrix probe set IDs}
+The Affymetrix
+probe to probe set mappings were taken from the 
+\texttt{mouse4302.db} and \texttt{mouse4302cdf} packages, 
+version 2\@.8\@.1 and 2\@.11\@.0, respectively. 
+The DAVID\autocite{Huang2009} and 
+Biomart\autocite{Kasprzyk2011}
+databases were used for linking
+Affymetrix probe set IDs to gene symbols (e\@.g\@. Rhob), 
+gene names (e\@.g\@. Ras homolog gene family, member B),
+MGI IDs (e\@.g\@. MGI:107949), and Entrez IDs (e\@.g\@. 11852).
+Version 2\@.4\@.1 of the \texttt{org.Mm.eg.db} package was also used.
+The \texttt{biomaRt} package, version 2\@.14\@.0, was used
+to access version 0\@.8 of the BioMart database.
+
+\subsubsection{Gene set annotations}
+
+Gene ontology gene associations with MGI gene IDs 
+were downloaded from \href{http://geneontology.org}{geneontology.org} and
+are saved in the annotation folder.\autocite{Ashburner2000} Gene 
+assocations from the Reactome
+database (\href{http://www.reactome.org}{reactome.org}) with human Entrez gene IDs were 
+also downloaded.\autocite{Matthews2009}
+
+\subsubsection{Orthology annotations}
+
+The Reactome database is built using Human Entrez IDs. To be able to use
+Reactome and other databases with human data, annotations were downloaded
+from NCBI homologene and MGI's flat files in order
+to map mouse genes to their human 
+orthologs.\autocite{Eppig2012} In order to compare mouse and human
+transcriptional date sets, Ensembl transcript IDs and gene IDs were mapped
+using the Biomart database.
+
+\subsubsection{Additional annotations}
+\label{sS:newProbeSets}
+
+The relationship between Affymetrix probe sets and gene IDs is typically
+\emph{many-to-many}. In other words, there are probe sets that map
+to \emph{many} genes, and there are genes that map to \emph{many}
+probe sets. For example, there are two microarray probe sets
+(\texttt{1418652\_at} and \texttt{1456907\_at}) that map to \emph{Cxcl9}.
+Which probe set should then be used to show the data for \emph{Cxcl9}, or how should
+these probe sets be combined into a single probe set? We address this 
+selection/summarization problem with functions described in 
+section \ref{sS:collapse} of this document. 
+
+As an alternative, we also
+aligned probe sequences to gene sequences from Ensembl\autocite{Flicek2012} in order to 
+define custom probe sets with \emph{one-to-one} mappings to Ensembl gene IDs. 
+These Ensembl-defined probe sets then made MGI-defined 
+probe sets possible using a mapping from Ensembl to MGI gene IDs. To map MGI 
+IDs to Ensembl Gene IDs, the Biomart database was used and
+a mapping file from MGI was also downloaded. Mappings from Ensembl
+transcript IDs to Ensembl Gene IDs were downloaded from Ensembl. Probe
+sequences were taken from version 2\@.11\@.0 of the \texttt{mouse4302probe}
+Bioconductor package and written to a FASTA file. NCBI BLAST-2\@.2\@.27+
+was used to map probes which aligned 100\% with Ensembl transcript IDs which
+then mapped to Ensembl Gene IDs. 
+
+The strict requirements we set reduced the number of
+probes ($310$,$467$ from {\raise.24ex\hbox{$\scriptstyle\sim$}}$450$,$000$) 
+and probe sets ($21$,$288$ from $45$,$101$). Redifining probe sets 
+thus lost {\raise.24ex\hbox{$\scriptstyle\sim$}}30\% of the microarray data. 
+Since this probe set redefinition did not greatly affect our overall 
+analyses, we continued with the Affymetrix
+defined probe sets. A parallel analysis to the one presented in this document
+(but with our redefined probe sets) is contained in the
+\texttt{./DiffProbeSets} folder yet is not discussed further.
+
+\subsection{Generating annotation lists in R}
+
+Several scripts generate the mappings from one type of 
+ID to another. These mappings are contained in 
+nested \texttt{list} objects (hereon referred to as annotation
+lists).
+
+<<cache=TRUE>>=
+# Examples of annotation lists
+load("./data/annotation.RData/MsAnn.RData")
+load("./data/annotation.RData/MsAnnGO.RData")
+head(MsAnn$MGI$Affy,3)
+head(MsAnnGO$MGI$BP,3)
+@
+
+The scripts which parse annotation files and access annotation databases
+are within the .\texttt{./C-Annotations/} folder. The script names, 
+the mappings the scripts generate, and in what variable the mappings (i.e. the
+annotation lists) are stored 
+are shown in Table \ref{Ta:annotations}. The variables are saved in
+similarly named \texttt{.RData} files in the
+\texttt{./data/annotation.RData} folder.
+
+\begin{table}[h]
+  \begin{center}
+    \begin{tabular}{ l | l | l }
+      Script   &    R variable    &    ID mappings   \\ \hline
+      \texttt{ProbeSetToOthers.R} & \texttt{MsAnn} & Affy $\leftrightarrow$ MGI, Entrez, Gene Symbol, Gene Name \\                                              
+      \texttt{GOAnnotations.R} & \texttt{MsAnnGO} & MGI $\leftrightarrow$ Gene Ontology Term \\
+      \texttt{OtherGenesetAnnotations.R} & \texttt{GSAnn} & Human Entrez $\leftrightarrow$ REACTOME \\
+      \texttt{OrthologAnnotations.R} & \texttt{MsAnn} & Human Entrez $\leftrightarrow$ Entrez, Affy \\
+      \texttt{} & & Human Ensembl $\leftrightarrow$ Ensembl \\
+      \texttt{EnsemblToOthers.R} & \texttt{MsAnn} & Ensembl gene $\leftrightarrow$ MGI \\
+      \texttt{NewProbeSets.R} & \texttt{CustomPS} & Affy probe $\leftrightarrow$ Ensembl, MGI \\
+      \texttt{GeneSymbols.R} & \texttt{MsAnn} & MGI $\leftrightarrow$ Gene Symbol
+    \end{tabular}
+    \caption{Annotation scripts and variables. ``Affy''=Affymetrix
+             Mouse 430 2.0 probeset ID. ``Entrez''=Entrez gene ID,
+             ``Ensembl''=Ensembl gene ID}\label{Ta:annotations}
+  \end{center}
+\end{table}
+
+The data from our previous study of the HCT8 cell transcriptional response 
+to TcdA and TcdB was reanalyzed in the same way this \emph{in vivo} data is analyzed. 
+The annotation files are given in Table \ref{Ta:HSannotations}. The scripts are located in the 
+\texttt{./InVitro/C-Annotations/} folder and the R variables are saved to the
+\texttt{./InVitro/data/annotation.RData/} folder.
+
+\begin{table}[h]
+  \begin{center}
+    \begin{tabular}{ l | l | l }
+      Script   &    R variable    &    ID mappings   \\ \hline                                         
+      \texttt{makeAnnotations.R} & \texttt{HsAnn} & Affy $\leftrightarrow$ Gene Symbol, Entrez, Gene Name \\
+      \texttt{} & \texttt{HsAnnGO} & Symbol $\leftrightarrow$ Gene Ontology Term \\
+      \texttt{NewProbeSetsHS.R} & \texttt{HsAnn} & Ensembl $\leftrightarrow$ Probe, Entrez, Gene Symbol \\
+    \end{tabular}
+    \caption{Annotation scripts and variables for Hgu133 Plus 2.0 chip }\label{Ta:HSannotations}
+  \end{center}
+\end{table}
+
+\subsection{Transitive mapping}
+Not all gene, probe, and probe set identifiers have direct mappings
+available. However, it is sometimes possible
+to map one identifier to another using intermediate mappings.
+In symbolic terms, for IDs $a$,$b$, and $c$, if there are mappings $a \rightarrow b$
+and $b \rightarrow c$, then an $a \rightarrow c$ mapping can be made. The
+\texttt{TransitiveMapping} function in the \texttt{./C-Annotations/TransitiveMapping.R}
+script generates such ``transitive mappings'' when given two mappings
+related by one common ID. Annotation lists or two-column
+matrices are taken as input. The function uses simple matrix multiplication for
+efficient mapping, typically taking $<$5s for many genome-wide mappings.
+
+<<transitive,message=FALSE>>=
+# An example of transitive mapping
+source("./C-Annotations/TransitiveMapping.R")
+head(TransitiveMapping(MsAnn$MGI$Affy,MsAnnGO$MGI$BP),4)
+@
+
+
+\subsection{Many probes to many genes mapping}
+\label{sS:collapse}
+
+As introduced in section \ref{sS:newProbeSets}, the relationship between 
+Affymetrix probe sets and gene IDs is typically many-to-many. 
+For example, one usually wants 
+to report the expression of gene $A$, not the expression of 
+probe set 1, probe set 2, and probe set 3 that map to gene $A$. There are two
+solutions to this \emph{many probe set to gene} problem: (1) selecting only one of the several 
+probe sets for each gene (selection), and (2) combining all of the probe sets 
+into a new probe set (gene summarization).
+
+Continuing with this example, a further problem may be 
+that probe set 2 also maps to gene $B$.
+Hence, it is possible that one probe set may represent or 
+contribute to the measured expression of many different genes. This
+\emph{probe set to many gene} problem is more difficult to resolve.
+Perhaps the most straightforward solution is complete reannotation of
+the microarray as discussed in section \ref{sS:newProbeSets}. We
+reannotated the microarray to contain only one-to-one relationships, yet found that 
+reducing the many-to-many relationship to only a many-to-one (not one-to-one) relationship 
+led to similar results. The many-to-one relationship also kept the data
+for many microarray probes that must be discarded
+in the generation of one-to-one mappings.
+
+The script \texttt{./C-Annotation/CollapseIDs.R} contains functions which
+will ``collapse'' genes with multiple probe sets into a single
+measurement, either by selection of a probe set or by gene summarization. In other
+words, data with probe set IDs is converted to data with commonly used and
+understandable gene IDs, even when given a many-to-many probe set to gene 
+mapping. The criteria for selecting which probe set represents a gene or 
+the criteria by which several probe sets are summarized into a gene are 
+inputs to the \texttt{collapseExprMatrix} and \texttt{collapseExprVector}
+functions defined in the \texttt{CollapseIDs.R} script. By default, the probe set
+with the largest interquartile range is selected. For gene summarization,
+the mean of probe sets is taken to represent the expression for a gene.
+
+<<collapsing,message=FALSE>>=
+# An example of "collapsing" an expression matrix
+library(affy)
+source("./C-Annotations/CollapseIDs.R")
+load("./data/RData/esets.RData")
+data = exprs(esets[["6hr"]])
+head( data , 3 )
+head( collapseExprMatrix( data, MsAnn$MGI$Affy, type="select" ), 3)
+@
+
+
+\section{Analyzing differential expression}\label{S:DE}
+
+The CyberT statistical test\autocite{Baldi2001} was used to generate p-values for the
+differential expression of probe sets after toxin injection relative to sham
+injection. The CyberT R source code was downloaded from 
+\url{http://cybert.ics.uci.edu}; this source code
+is in the \texttt{./D-DiffExpression/bayesreg.R} script. We wrote the
+\texttt{cybertWrapper} function to automatically format \texttt{ExpressionSet}
+objects for the \texttt{bayesT} function in the \texttt{bayesreg.R} script. 
+The wrapper function automatically sets up toxin versus sham comparisons according to the
+phenotype data within each \texttt{ExpressionSet}. Hence, the wrapper function
+is highly customized for this study. The wrapper function outputs
+a list containing matrices of parameters and p-values; the columns of each
+matrix represent the different two-class comparisons. The 
+\texttt{./D-DiffExpression/cybertRun.R} script applies the \texttt{cybertWrapper}
+for all of the toxin-sham comparisons and saves the results to 
+\texttt{./data/RData/cyberT.results.RData}.
+
+<<cybert>>=
+# Part of the output from CyberT test for differential expression
+load("./data/RData/cyberT.results.RData")
+head(cyberT.results$pval,3)
+head(cyberT.results$tstats,3)
+@
+
+
+\section{Gene set enrichment}\label{S:Enrichment}
+
+\subsection{Competitive}
+Competitive gene set enrichment was performed with the method CAMERA 
+developed by Wu \emph{et al.}\autocite{Wu2012}
+The \texttt{camera} function, in the limma Bioconductor package,
+calls other functions within limma to 
+determine t-statistics for every gene. These t-statistics are then used 
+in gene set enrichment. We modified \texttt{camera} to be able to accept
+other t-statistics. Our modified function \texttt{cameraMod} is defined
+in the script \texttt{./DiffExpression/cameraMod.R}.
+
+Since gene sets are made from gene-level IDs such as MGI IDs or 
+Entrez IDs, the data with Affymetrix probe sets must be collapsed
+to data with gene-level IDs (see section \ref{sS:collapse} for more about collapsing).
+Since CAMERA calculates gene-gene correlations, it must begin with
+the data for each microarray (the \texttt{ExpressionSet} objects). The
+\texttt{ExpressionSet} objects were collapsed, and CyberT was applied to obtain
+test statistics for each gene ID.
+
+<<collapsetstats>>=
+# saving the mapping when a matrix is collapsed
+data = exprs(esets[["6hr"]])
+result = collapseExprMatrix( data, MsAnn$MGI$Affy, type="select", 
+                    func=function(x) IQR(x), return.probes=TRUE )
+collapsed.data = result$expMat
+head(result$collapseMap,5)
+@
+
+Again, there are a few complications with annotations of genes and gene sets, which
+we discuss using an example. Consider a gene set that includes genes $A$, $B$, \ldots , and $K$.
+We then find that no probe sets map to genes $J$ or $K$. We then reduce the gene set to genes
+for which there is data, genes $A$, $B$, \ldots , and $I$. Now consider that,
+in collapsing probe sets to genes,  probe set $1$ was selected as the probe set
+to represent the closely related genes $E$, $F$, $G$, $H$, and $I$. If probe set $1$
+was strongly differentially expressed, then the majority of genes in this
+gene set would be found to be differentially expressed, which may or may not
+be the case. To avoid a probe set errantly making a gene set
+significantly enriched, a probe set was not allowed to be repreated in a  gene set. 
+In this example, the gene
+set would then be genes $A$, $B$, $C$, $D$, and one gene represented by probe set $1$.
+When gene set enrichment is performed on a collapsed matrix, it is thus necessary
+to save which probes map to genes (note the \texttt{return.probes} option in the
+previous example of the \texttt{collapseExprMatrix} function). Finally, gene sets with
+few genes are more likely to be enriched by one or two outliers, and
+gene sets with several hundred genes are often too vague for interpretation. Hence,
+gene sets with very few or several hundred genes were excluded. The function
+\texttt{indexGeneSets} accounts for all the problems mentioned above; it also
+converts the format of the gene set annotation lists so that they may be
+used with \texttt{camera} and \texttt{cameraMod}.
+
+A wrapper function, \texttt{cameraModWrapper} in \texttt{cameraModWrapper.R}, 
+uses the CyberT t statistic as input to \texttt{cameraMod}. The wrapper function
+is used in the script \texttt{runCAMERA.R} and the results are saved to
+\texttt{./data/RData/cameraMod.RData}.
+
+\subsection{Self-contained}
+
+The function for the self contained test, \texttt{cactus}, is defined in the
+\texttt{./E-Enrichment/cactus.R} script. The \texttt{runCactus.R} script
+runs \texttt{cactus} for every toxin-sham comparison and saves the p-values
+from each gene set enrichment in the \texttt{./data/RData/cactus.RData} file.
+The annotation problems mentioned for competitive gene set enrichment
+were addressed in the same way for self-contained gene set enrichment.
+
+<<enrichment,message=FALSE>>=
+# Example of p-values from gene set enrichment
+source("./E-Enrichment/cameraModWrapper.R")
+eset = esets[["16hr"]]
+result = cameraModWrapper(eset, MsAnnGO$MF$MGI, list(c("A16","Sham16")), MsAnn$MGI$Affy )
+head(sort(result,decreasing=FALSE))
+
+source("./E-Enrichment/cactus.R")
+eset = esets[["2hr"]]
+result = cactus(eset, MsAnnGO$BP$MGI, list(c("A2","Sham2"),c("B2","Sham2")), MsAnn$MGI$Affy )
+head(result,4)
+@
+
+\section{Analysis of previous \emph{in vitro} data}
+
+The analysis described in the previous sections was repeated for the transcriptional
+response of HCT8 cells exposed to TcdA or TcdB.\autocite{DAuria2012} The scripts and files for this
+analysis are in the \texttt{./InVitro/} folder. The directory structure is the same
+as for analysis of our \emph{in vivo} data.
+
+Our reanalysis of the \emph{in vitro} data uncovered a clear
+batch effect between different runs of microarrays. The batch effect had little
+effect on the ranking of genes or the gene set enrichment results we have
+reported previously. Nevertheless, we corrected for this batch effect using
+a simple linear model. Factors for the three different runs were included in the
+model. A principal components plot of all the microarrays before and after 
+batch correction are shown in Figure \ref{fig:batch}.
+
+\begin{figure}[ht]
+\centering
+\includegraphics{batch.pdf}
+\caption{Batch corrected HCT8 transcriptional data}
+\label{fig:batch}
+\end{figure}
+
+\section{Comparisons to other transcriptomic and proteomic data}
+
+Proteomic data from Zeiser \emph{et al.} was downloaded from the supplementary
+material of their manuscript.\autocite{Zeiser2013} The transcriptional data with HCT8 cells was
+downloaded from NCBI GEO. The scripts parsing these data are in the
+\texttt{./G-Comparisons} folder. In merging the data between mouse and human, 
+only one-to-one mappings were used.
+
+\section{Cytotoxicity assay}
+
+After toxin addition, measurements for the cytotoxicity assay 
+were taken 6 times/minute. In order to have enough replicates, 
+two plates were used. Toxin was added to the columns of each
+plate using a multichannel pipette. The time at which toxin
+was added to each column was recorded manually. This information was used
+to interpolate the measurements from all wells to the exact same time points. 
+The plotting functions
+and calculations are in the \texttt{./F-Figures/CytotoxAssay.R} script. The
+data is in the \texttt{./data/CytotoxData.txt} file.
+
+\section{Scripts for generating figures and tables}\label{S:Figures}
+
+Most figures and tables were produced from R scripts.
+Unless otherwise noted, the scripts in Table \ref{Ta:figureScripts} are in the
+\texttt{./F-Figures} folder. Many of these scripts depend on the scripts
+and results described in the previous sections.
+
+\begin{table}[h]
+  \begin{center}
+    \begin{tabular}{ l l  }
+      Figure or Table   &  Script   \\ \hline
+      Table 1 & \texttt{Table1.R} \\
+      Tables 2 \& 3 & \texttt{Tables2and3.R} \\
+      Figure 2 & \texttt{Figure2.R} \\
+      Figure 3 \& S6 & \texttt{Figure3.R} \\
+      Figure 4 & \texttt{Figure4.R} \\
+      Figure S1, S3, S7, and S8 & \texttt{Supplement.R} \\
+      Tables S1 \& S2 & Manually entered \\
+      Figure S2 & \texttt{CytotoxAssay.R} \\
+      Figure S4 & \texttt{flow.R} \\
+      Figure S5 & \texttt{./G-Comparisons/Hirota-et-al/HirotaCytokines.R} \\
+      Figures S9 & \texttt{./G-Comparisons/HCT8-cells/Sims.R} \\
+      \hspace{1cm} \& S10 & \& \texttt{./G-Comparisons/Proteomics/loadData.R}
+    \end{tabular}
+    \caption{Scripts for producing tables and figures}\label{Ta:figureScripts}
+  \end{center}
+\end{table}
+
+\section{Notes on formatting}\label{S:Formatting}
+
+This document is written using \LaTeX{} and the \texttt{knitr} software 
+package from Yihui Xie\autocite{Xie2013}; the document files are in the \texttt{./LaTeX} folder.
+The figures were exported to \texttt{pdf} or \texttt{svg} files and 
+further formatted with Adobe Illustrator.
+
+\printbibliography
+
+\end{document}
+
+
+
